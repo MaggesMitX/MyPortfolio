@@ -1,0 +1,15 @@
+[Unit]
+Description=led-Animation
+After=multi-user.target
+
+[Service]
+User=root
+Group=root
+WorkingDirectory=/home/ta/Dokumente/Python/
+ExecStart=/usr/bin/python3 /home/ta/Dokumente/Python/led_animation.py
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
+
