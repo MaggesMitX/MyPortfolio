@@ -1,0 +1,7 @@
+html {
+    display: block;
+  }
+  
+  html:focus {
+    outline: none;
+  }
