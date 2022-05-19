@@ -6,11 +6,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mein Portfolio</title>
     <header>
-        <h1>Setzen Sie sich, es gibt Kekse</h1>
-        <p>Portfolio by Max Ramacher</p>
+      <link href="style.css" rel="stylesheet">
+      <script src="src.js"></script>
+        <!-- <h1>Setzen Sie sich, es gibt Kekse</h1>
+        <p>Portfolio by Max Ramacher</p> -->
       </header>
 </head>
 <body>
-    
+  <div class="navbar" id= "nav">
+    <a href="#Home">Home</a>
+    <div class="dropdown">
+        <a class="drop" href="#Home">Dropdown 
+          <i class="fa fa-angle-double-down"></i>
+          <i class="fa fa-angle-double-up"></i>
+        </a>
+      <div class="drop-content">
+        <a href="#Prod1">Drop 1</a>
+        <a href="#Prod2">Prod 2</a>
+        <a href="#Prod3">Prod 3</a>
+      </div>
+    </div>
+    <a href="#Portfolio">News</a>
+    <a href="#Blog">Blog</a>
+    <a href="#Content">Contact</a>
+    <a href="javascript:void(0);" class="icon" onclick="displayMenu()"><i class="fa fa-bars"></i></a>
+  </div>
+
+
 </body>
 </html>
