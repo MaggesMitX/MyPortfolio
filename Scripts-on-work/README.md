@@ -8,5 +8,7 @@ unter /etc/systemd/system werden die services abgespeichert.
 Erweiterte Hilfestellung ist verlinkt:
 https://gist.github.com/emxsys/a507f3cad928e66f6410e7ac28e2990f
 
+https://wiki.archlinux.org/title/systemd
+
 Auf dem Pi muss im Verzeichnis /home/pi/Dokumente ein ordner mit Python erstellt werden, damit der path übereinstimmt.
 Endpath sollte: /home/pi/Dokumente/Python/application.py , sein.
