@@ -5,8 +5,8 @@ After=multi-user.target
 [Service]
 User=root
 Group=root
-WorkingDirectory=/home/ta/Dokumente/Python/
-ExecStart=/usr/bin/python3 
+WorkingDirectory=/home/pi/Dokumente/Python/
+ExecStart=/usr/bin/python3 /home/pi/ledStressTester.py
 Restart=always
 RestartSec=3
 
