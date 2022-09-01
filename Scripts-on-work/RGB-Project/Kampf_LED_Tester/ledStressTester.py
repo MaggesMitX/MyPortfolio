@@ -21,6 +21,7 @@ LED_INVERT = False    # True to invert the signal (when using NPN transistor lev
 LED_CHANNEL = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
 
 def colorWipe(strip, color, wait_ms=5):
+    stripgl = strip
     print("starte F1")
     """Wipe color across display a pixel at a time."""
     for i in range(strip.numPixels()):
@@ -67,10 +68,10 @@ def strobews2(strip2, wait_ms=1000, strobe_count=1, pulse_count=2):
         time.sleep(wait_ms/1000.0)      
 
 
-threadCWipe_WS1 = Thread(target=colorWipe())
-threadCWipe_WS2 = Thread(target=colorWipe2())
-threadshowWS1 = Thread(target=strobews1())
-threadshowWS2 = Thread(target=strobews2())
+threadCWipe_WS1 = Thread(target=colorWipe)
+threadCWipe_WS2 = Thread(target=colorWipe2)
+threadshowWS1 = Thread(target=strobews1)
+threadshowWS2 = Thread(target=strobews2)
 
 # Main program logic follows:
 if __name__ == '__main__':
