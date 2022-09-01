@@ -10,7 +10,7 @@ from rpi_ws281x import PixelStrip, Color
 import argparse
 
 # LED strip configuration:
-LED_COUNT = 250       # Number of LED pixels.
+LED_COUNT = 650       # Number of LED pixels.
 LED_PIN = 21          # GPIO pin connected to the pixels (18 uses PWM!).
 LED_PIN_2 = 12        # GPIO pin connected to the pixels (12 uses PWM!).
 LED_FREQ_HZ = 800000  # LED signal frequency in hertz (usually 800khz)
@@ -21,25 +21,17 @@ LED_CHANNEL = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
 
 
 
-def colorWipe(strip, color, wait_ms=25):
+def colorWipe(strip, color, wait_ms=5):
     """Wipe color across display a pixel at a time."""
     for i in range(strip.numPixels()):
         strip.setPixelColor(i, color)
         strip.show()
         time.sleep(wait_ms / 1000.0)
 
-def showWS1(strip, color):
-    for i in range(strip.numPixels()):
-        strip.setPixelColor(i, color(0,255,0))
-        strip.show()
-
-def showWS2(strip2, color):                        
-    for i in range(strip2.numPixels()):
-        strip2.setPixelColor(i, color(0,255,0))
-        time.sleep(1)
-        strip2.setPixelColor(i, color(0,255,0))
-        strip2.show()
-
+def WS1():
+    pass
+def WS2():
+    pass
 
 # Main program logic follows:
 if __name__ == '__main__':
@@ -60,19 +52,37 @@ if __name__ == '__main__':
     if not args.clear:
         print('Use "-c" argument to clear LEDs on exit')
 
-    try:
+try:
 
-        for f in range(0,2):
+        while True:
+            print("red")
             colorWipe(strip, Color(255, 0, 0))  # Red wipe
             colorWipe(strip2, Color(255, 0, 0))  # Red wipe
+            colorWipe(strip, Color(0, 0, 0), 5)
+            colorWipe(strip2, Color(0, 0, 0), 5)
+            print("green")
             colorWipe(strip, Color(0, 255, 0))  # Green wipe
             colorWipe(strip2, Color(0, 255, 0))  # Green wipe
+            colorWipe(strip, Color(0, 0, 0), 5)
+            colorWipe(strip2, Color(0, 0, 0), 5)
+            print("blue")
             colorWipe(strip, Color(0, 0, 255))  # Blue wipe
             colorWipe(strip2, Color(0, 0, 255))  # Blue wipe
-            time.sleep(1)
-            showWS1()
-            showWS2()
+            print("clearAll")
+            colorWipe(strip, Color(0, 0, 0), 5)
+            colorWipe(strip2, Color(0, 0, 0), 5)
+            time.sleep(2)
+            print("Show WS1 Wipe")
+            colorWipe(strip, Color(0, 255, 0))  # Green wipe WS1
+            print("clear WS1")
+            colorWipe(strip, Color(0, 0, 0), 5) #clear leds
+            print("Show WS2 Wipe")
+            colorWipe(strip2, Color(0, 255, 0))  # Green wipe WS2
+            colorWipe(strip2, Color(0, 0, 0), 5) #clear leds
+            print("second wipe Ws2")
+            colorWipe(strip2, Color(0, 255, 0))  # Green wipe WS2
+            colorWipe(strip2, Color(0, 0, 0), 5) #clear leds
 
-    except KeyboardInterrupt:
-        if args.clear:
-            colorWipe(strip, Color(0, 0, 0), 10)
+except KeyboardInterrupt:
+    if args.clear:
+        colorWipe(strip, Color(0, 0, 0), 5)
