@@ -1,10 +1,4 @@
 #!/usr/bin/env python3
-# NeoPixel library strandtest example
-# Author: Tony DiCola (tony@tonydicola.com)
-#
-# Direct port of the Arduino NeoPixel library strandtest example.  Showcases
-# various animations on a strip of NeoPixels.
-
 import time
 from rpi_ws281x import PixelStrip, Color
 import argparse
@@ -20,7 +14,7 @@ LED_BRIGHTNESS = 180  # Set to 0 for darkest and 255 for brightest
 LED_INVERT = False    # True to invert the signal (when using NPN transistor level shift)
 LED_CHANNEL = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
 
-def colorWipe(strip, color, wait_ms=5):
+def init_colorWipe(strip, color, wait_ms=5):
     stripgl = strip
     print("starte F1")
     """Wipe color across display a pixel at a time."""
@@ -29,7 +23,7 @@ def colorWipe(strip, color, wait_ms=5):
         strip.show()
         time.sleep(wait_ms / 1000.0)
 
-def colorWipe2(strip2, color, wait_ms=5):
+def init_colorWipe2(strip2, color, wait_ms=5):
     print("starte F2")
     """Wipe color across display a pixel at a time."""
     for i in range(strip2.numPixels()):
@@ -37,6 +31,22 @@ def colorWipe2(strip2, color, wait_ms=5):
         strip2.show()
         time.sleep(wait_ms / 1000.0)
 
+def colorWipe():
+    print("red wipe")
+    init_colorWipe(strip, Color(255, 0, 0))
+    init_colorWipe(strip, Color(0, 0, 0), 5)
+    print("green")
+    init_colorWipe(strip, Color(0, 255, 0))
+    init_colorWipe(strip, Color(0, 0, 0), 5)
+
+def colorWipe2():
+    print("red wipe")
+    init_colorWipe2(strip2, Color(255, 0, 0))
+    init_colorWipe(strip, Color(0, 0, 0), 5)   
+    print("green")
+    init_colorWipe2(strip, Color(0, 255, 0))
+    init_colorWipe2(strip, Color(0, 0, 0), 5)
+    
 def strobews1(strip, wait_ms=1000, strobe_count=1, pulse_count=1):
     from random import randrange
     "In strobe_count wird die Häufigkeit der Blitze eingestellt"
@@ -96,14 +106,8 @@ try:
 
         while True:
 
-            print("red")
-            threadCWipe_WS1(strip, Color(255, 0, 0))
-            threadCWipe_WS2(strip2, Color(255, 0, 0))
-            print("clear red")
-            threadCWipe_WS1(strip, Color(0, 0, 0), 5)
-            threadCWipe_WS2(strip2, Color(0, 0, 0), 5)
-            print("green")
-            threadCWipe_WS1(strip, Color(0, 255, 0))
+
+   
             threadCWipe_WS2(strip2, Color(0, 255, 0))
             print("clear green")
             threadCWipe_WS1(strip, Color(0, 0, 0), 5)
