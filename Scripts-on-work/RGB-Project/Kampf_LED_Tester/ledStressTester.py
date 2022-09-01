@@ -8,6 +8,7 @@
 import time
 from rpi_ws281x import PixelStrip, Color
 import argparse
+from threading import Thread
 
 # LED strip configuration:
 LED_COUNT = 650       # Number of LED pixels.
@@ -19,19 +20,57 @@ LED_BRIGHTNESS = 180  # Set to 0 for darkest and 255 for brightest
 LED_INVERT = False    # True to invert the signal (when using NPN transistor level shift)
 LED_CHANNEL = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
 
-
-
 def colorWipe(strip, color, wait_ms=5):
+    print("starte F1")
     """Wipe color across display a pixel at a time."""
     for i in range(strip.numPixels()):
         strip.setPixelColor(i, color)
         strip.show()
         time.sleep(wait_ms / 1000.0)
 
-def WS1():
-    pass
-def WS2():
-    pass
+def colorWipe2(strip2, color, wait_ms=5):
+    print("starte F2")
+    """Wipe color across display a pixel at a time."""
+    for i in range(strip2.numPixels()):
+        strip2.setPixelColor(i, color)
+        strip2.show()
+        time.sleep(wait_ms / 1000.0)
+
+def strobews1(strip, wait_ms=1000, strobe_count=1, pulse_count=1):
+    from random import randrange
+    "In strobe_count wird die Häufigkeit der Blitze eingestellt"
+    "Die Variable pulse_count stellt die Wiederholung der Blitze ein. Die Zeit zwischen den Pulsen ist eine Zufallszahl zwischen 0 und 45 ms time.sleep(randrange(0,45,1)."
+    for strobe in range(strobe_count):    
+        for pulse in range(pulse_count):
+            for i in range(strip.numPixels()):
+                strip.setPixelColorRGB(i, 0,0,255)
+            strip.show()
+            time.sleep(randrange(0,45,1)/1000.0)
+            for i in range(strip.numPixels()):
+                strip.setPixelColorRGB(i, 0,0,0)
+            strip.show()
+        time.sleep(wait_ms/1000.0)
+
+def strobews2(strip2, wait_ms=1000, strobe_count=1, pulse_count=2):
+    from random import randrange
+    "In strobe_count wird die Häufigkeit der Blitze eingestellt"
+    "Die Variable pulse_count stellt die Wiederholung der Blitze ein. Die Zeit zwischen den Pulsen ist eine Zufallszahl zwischen 0 und 45 ms time.sleep(randrange(0,45,1)."
+    for strobe in range(strobe_count):    
+        for pulse in range(pulse_count):
+            for i in range(strip2.numPixels()):
+                strip2.setPixelColorRGB(i, 0,0,255)
+            strip2.show()
+            time.sleep(randrange(0,45,1)/1000.0)
+            for i in range(strip2.numPixels()):
+                strip2.setPixelColorRGB(i, 0,0,0)
+            strip2.show()
+        time.sleep(wait_ms/1000.0)      
+
+
+threadCWipe_WS1 = Thread(target=colorWipe())
+threadCWipe_WS2 = Thread(target=colorWipe2())
+threadshowWS1 = Thread(target=strobews1())
+threadshowWS2 = Thread(target=strobews2())
 
 # Main program logic follows:
 if __name__ == '__main__':
@@ -55,34 +94,30 @@ if __name__ == '__main__':
 try:
 
         while True:
-            print("red")
-            colorWipe(strip, Color(255, 0, 0))  # Red wipe
-            colorWipe(strip2, Color(255, 0, 0))  # Red wipe
-            colorWipe(strip, Color(0, 0, 0), 5)
-            colorWipe(strip2, Color(0, 0, 0), 5)
-            print("green")
-            colorWipe(strip, Color(0, 255, 0))  # Green wipe
-            colorWipe(strip2, Color(0, 255, 0))  # Green wipe
-            colorWipe(strip, Color(0, 0, 0), 5)
-            colorWipe(strip2, Color(0, 0, 0), 5)
-            print("blue")
-            colorWipe(strip, Color(0, 0, 255))  # Blue wipe
-            colorWipe(strip2, Color(0, 0, 255))  # Blue wipe
-            print("clearAll")
-            colorWipe(strip, Color(0, 0, 0), 5)
-            colorWipe(strip2, Color(0, 0, 0), 5)
-            time.sleep(2)
-            print("Show WS1 Wipe")
-            colorWipe(strip, Color(0, 255, 0))  # Green wipe WS1
-            print("clear WS1")
-            colorWipe(strip, Color(0, 0, 0), 5) #clear leds
-            print("Show WS2 Wipe")
-            colorWipe(strip2, Color(0, 255, 0))  # Green wipe WS2
-            colorWipe(strip2, Color(0, 0, 0), 5) #clear leds
-            print("second wipe Ws2")
-            colorWipe(strip2, Color(0, 255, 0))  # Green wipe WS2
-            colorWipe(strip2, Color(0, 0, 0), 5) #clear leds
 
+            print("red")
+            threadCWipe_WS1(strip, Color(255, 0, 0))
+            threadCWipe_WS2(strip2, Color(255, 0, 0))
+            print("clear red")
+            threadCWipe_WS1(strip, Color(0, 0, 0), 5)
+            threadCWipe_WS2(strip2, Color(0, 0, 0), 5)
+            print("green")
+            threadCWipe_WS1(strip, Color(0, 255, 0))
+            threadCWipe_WS2(strip2, Color(0, 255, 0))
+            print("clear green")
+            threadCWipe_WS1(strip, Color(0, 0, 0), 5)
+            threadCWipe_WS2(strip2, Color(0, 0, 0), 5)
+            print("blue")
+            threadCWipe_WS1(strip, Color(0, 0, 255))
+            threadCWipe_WS2(strip2, Color(0, 0, 255))
+            print("clear red")
+            threadCWipe_WS1(strip, Color(0, 0, 0), 5)
+            threadCWipe_WS2(strip2, Color(0, 0, 0), 5)
+            print("show only WS1")
+            time.sleep(3)
+            threadshowWS1
+            threadshowWS2
+            time.sleep(3)
 except KeyboardInterrupt:
     if args.clear:
         colorWipe(strip, Color(0, 0, 0), 5)
