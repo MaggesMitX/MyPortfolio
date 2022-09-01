@@ -15,7 +15,6 @@ LED_INVERT = False    # True to invert the signal (when using NPN transistor lev
 LED_CHANNEL = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
 
 def init_colorWipe(strip, color, wait_ms=5):
-    stripgl = strip
     print("starte F1")
     """Wipe color across display a pixel at a time."""
     for i in range(strip.numPixels()):
@@ -31,22 +30,29 @@ def init_colorWipe2(strip2, color, wait_ms=5):
         strip2.show()
         time.sleep(wait_ms / 1000.0)
 
-def colorWipe():
+def showcolorWipe():
     print("red wipe")
     init_colorWipe(strip, Color(255, 0, 0))
     init_colorWipe(strip, Color(0, 0, 0), 5)
-    print("green")
+    print("green wipe")
     init_colorWipe(strip, Color(0, 255, 0))
     init_colorWipe(strip, Color(0, 0, 0), 5)
-
-def colorWipe2():
+    print("blue wipe")
+    init_colorWipe(strip, Color(0, 0, 255))
+    init_colorWipe(strip, Color(0, 0, 0), 5)
+    print("clear all LEDs....")
+def showcolorWipe2():
     print("red wipe")
     init_colorWipe2(strip2, Color(255, 0, 0))
-    init_colorWipe(strip, Color(0, 0, 0), 5)   
+    init_colorWipe2(strip, Color(0, 0, 0), 5)   
     print("green")
     init_colorWipe2(strip, Color(0, 255, 0))
     init_colorWipe2(strip, Color(0, 0, 0), 5)
-    
+    print("blue")
+    init_colorWipe2(strip, Color(0, 0, 255))
+    init_colorWipe2(strip, Color(0, 0, 0), 5)
+    print("clear all LEDs....")
+
 def strobews1(strip, wait_ms=1000, strobe_count=1, pulse_count=1):
     from random import randrange
     "In strobe_count wird die Häufigkeit der Blitze eingestellt"
@@ -77,9 +83,8 @@ def strobews2(strip2, wait_ms=1000, strobe_count=1, pulse_count=2):
             strip2.show()
         time.sleep(wait_ms/1000.0)      
 
-
-threadCWipe_WS1 = Thread(target=colorWipe)
-threadCWipe_WS2 = Thread(target=colorWipe2)
+threadCWipe_WS1 = Thread(target=showcolorWipe)
+threadCWipe_WS2 = Thread(target=showcolorWipe2)
 threadshowWS1 = Thread(target=strobews1)
 threadshowWS2 = Thread(target=strobews2)
 
@@ -105,24 +110,18 @@ if __name__ == '__main__':
 try:
 
         while True:
-
-
-   
-            threadCWipe_WS2(strip2, Color(0, 255, 0))
-            print("clear green")
-            threadCWipe_WS1(strip, Color(0, 0, 0), 5)
-            threadCWipe_WS2(strip2, Color(0, 0, 0), 5)
-            print("blue")
-            threadCWipe_WS1(strip, Color(0, 0, 255))
-            threadCWipe_WS2(strip2, Color(0, 0, 255))
-            print("clear red")
-            threadCWipe_WS1(strip, Color(0, 0, 0), 5)
-            threadCWipe_WS2(strip2, Color(0, 0, 0), 5)
-            print("show only WS1")
+            print("starting LED tester.py | Checking Winding Sides with threads..")
+            print("Start checking..")
+            threadCWipe_WS1
+            threadCWipe_WS2
+            print("Check Complete, load and show with blinking the Winding Side 1 and Winding Side 2..")
             time.sleep(3)
             threadshowWS1
             threadshowWS2
+            print("Check Complete, restarting programm..")
             time.sleep(3)
+
 except KeyboardInterrupt:
     if args.clear:
-        colorWipe(strip, Color(0, 0, 0), 5)
+        print("Aborting program...clear LEDs..")
+        showcolorWipe(strip, Color(0, 0, 0), 5)
